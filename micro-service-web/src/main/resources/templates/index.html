@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:if="${env} == 'dev'" rel="stylesheet" href="http://localhost:8200/web/dist/app.css"/>
+    <link th:if="${env} != 'dev'" rel="stylesheet" th:href="@{/static/app.css(v=${version})}"/>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script th:if="${env} == 'dev'"  type="text/javascript" src="http://localhost:8200/web/dist/build.js"></script>
+    
+    
+    <script th:if="${env} != 'dev'"  type="text/javascript" th:src="@{/static/vendor.js(v=${version})}"></script>
+    <script th:if="${env} != 'dev'"  type="text/javascript" th:src="@{/static/app.js(v=${version})}"></script>
+
+</body>
+</html>

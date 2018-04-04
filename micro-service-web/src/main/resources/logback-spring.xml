@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="log.base" value="log" /> 
+	<property name="log.max.size" value="20MB" /> 
+
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>	
+
+	<!-- 只用保存输出error级别的日志 -->
+	<appender name="file.error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.base}/error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}/error_%d{yyyy-MM-dd}.%i.log.zip
+			</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>20MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56}.%method\(\):%L - %msg%n</pattern>
+		</layout>
+		<!-- 下面为配置只输出error级别的日志 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<logger name="root" additivity="false">
+		<level value="info" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="file.error" />
+	</logger>
+
+	
+	<!-- 业务日志 -->
+	<logger name="com.galaxyinternet" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="file.error" />
+	</logger>
+	
+	<logger name="com.galaxy" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="file.error" />
+	</logger>
+	
+   
+</configuration>

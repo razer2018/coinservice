@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: micro-service
+  devtools:
+    restart:
+      exclude: log/**, front/**
+
+server:
+  port: 8080
+  context-path: /micro
+management:
+  port: 8082
+  context-path: /manage
+ 
+logging:
+  path: log
+

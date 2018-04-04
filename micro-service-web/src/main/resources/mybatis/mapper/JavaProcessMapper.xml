@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coindemo.model.JavaProcess">
+  <resultMap id="BaseResultMap" type="com.coindemo.model.JavaProcess">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="java_process" jdbcType="INTEGER" property="javaProcess" />
+    <result column="system_code" jdbcType="VARCHAR" property="systemCode" />
+    <result column="is_valid" jdbcType="VARCHAR" property="isValid" />
+    <result column="created_time" jdbcType="BIGINT" property="createdTime" />
+    <result column="updated_time" jdbcType="BIGINT" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, java_process, is_valid, created_time, updated_time, system_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from java_process
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from java_process
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.coindemo.model.JavaProcess" useGeneratedKeys="true" keyProperty="id">
+    insert into java_process (id, java_process, is_valid, 
+      created_time, updated_time, system_code)
+    values (#{id,jdbcType=BIGINT}, #{javaProcess,jdbcType=INTEGER}, #{isValid,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=BIGINT}, #{updatedTime,jdbcType=BIGINT}, #{systemCode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coindemo.model.JavaProcess">
+    update java_process
+    <set>
+      <if test="javaProcess != null">
+        java_process = #{javaProcess,jdbcType=INTEGER},
+      </if>
+      <if test="systemCode != null">
+        system_code = #{systemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=BIGINT},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.coindemo.model.JavaProcess">
+    update java_process
+    set java_process = #{javaProcess,jdbcType=INTEGER},
+      system_code = #{systemCode,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=BIGINT},
+      updated_time = #{updatedTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+     <sql id="Base_Where_Clause" >
+        <where >
+            <trim prefixOverrides="and" >
+                <if test="id != null" >
+                    and id = #{id,jdbcType=BIGINT}
+                </if>
+                <if test="systemCode != null" >
+                    and system_code = #{systemCode,jdbcType=VARCHAR}
+                </if>
+                <if test="javaProcess != null" >
+                    and java_process = #{javaProcess,jdbcType=INTEGER}
+                </if>
+            </trim>
+        </where>
+    </sql>
+    
+    <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from java_process
+        <include refid="Base_Where_Clause" />
+        <if test="sorting != null" >
+            order by ${sorting}
+        </if>
+        <if test="offset != null and limit != null" >
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    
+    <select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+        select count(id) from java_process
+        <include refid="Base_Where_Clause" />
+    </select>
+    
+    <delete id="delete" parameterType="java.util.Map" >
+        delete from java_process
+        <include refid="Base_Where_Clause" />
+    </delete>
+</mapper>
